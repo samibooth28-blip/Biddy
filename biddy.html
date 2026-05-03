@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biddy Flint — The Slab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Barlow:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --concrete: #2a2824;
+    --slab: #1a1815;
+    --deeper: #0f0e0c;
+    --ash: #8a8680;
+    --dust: #c4c0b8;
+    --bone: #e8e4dc;
+    --red: #c0392b;
+    --red-hot: #e74c3c;
+    --neon: #d4e000;
+    --neon-dim: #8a9000;
+    --rust: #7a3020;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--deeper);
+    color: var(--dust);
+    font-family: 'Barlow', sans-serif;
+    font-size: 17px;
+    line-height: 1.7;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* GRAIN OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    height: 100vh;
+    min-height: 640px;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .hero-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    filter: brightness(0.5) contrast(1.2) saturate(0.7);
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(15,14,12,0.3) 0%,
+      transparent 40%,
+      rgba(15,14,12,0.7) 75%,
+      var(--deeper) 100%
+    );
+  }
+
+  /* NEON STRIPE */
+  .hero-stripe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 100%;
+    background: var(--neon);
+    z-index: 2;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 0 3rem 4rem 4rem;
+    max-width: 900px;
+  }
+
+  .estate-tag {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    color: var(--neon);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .estate-tag::before {
+    content: '//';
+    opacity: 0.5;
+  }
+
+  .hero-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(5rem, 14vw, 10rem);
+    font-weight: 900;
+    line-height: 0.85;
+    letter-spacing: -0.02em;
+    color: var(--bone);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-name span {
+    display: block;
+    color: var(--red);
+    -webkit-text-stroke: 2px var(--red);
+  }
+
+  .tagline {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(1rem, 2.5vw, 1.4rem);
+    font-weight: 400;
+    font-style: italic;
+    color: var(--ash);
+    letter-spacing: 0.05em;
+    max-width: 600px;
+    line-height: 1.4;
+    border-left: 3px solid var(--red);
+    padding-left: 1.2rem;
+  }
+
+  /* SECTION STRUCTURE */
+  .section {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 5rem 2rem;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .section-number {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--neon);
+    letter-spacing: 0.2em;
+  }
+
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, var(--red), transparent);
+  }
+
+  .section-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--bone);
+    letter-spacing: 0.05em;
+    line-height: 1;
+    margin-bottom: 1.5rem;
+  }
+
+  .section-title em {
+    color: var(--red);
+    font-style: normal;
+  }
+
+  p {
+    color: var(--ash);
+    margin-bottom: 1.2rem;
+    font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+    line-height: 1.8;
+  }
+
+  /* INTRO BLOCK */
+  .intro-block {
+    background: var(--concrete);
+    border-left: 4px solid var(--neon);
+    padding: 2.5rem 3rem;
+    margin-bottom: 3rem;
+    position: relative;
+  }
+
+  .intro-block::after {
+    content: 'BIDDY FLINT';
+    position: absolute;
+    bottom: -0.8rem;
+    right: 2rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    color: var(--neon-dim);
+    background: var(--concrete);
+    padding: 0 0.8rem;
+  }
+
+  .intro-block p {
+    color: var(--dust);
+    font-size: clamp(1rem, 2vw, 1.15rem);
+    line-height: 1.9;
+    margin-bottom: 1rem;
+  }
+
+  .intro-block p:last-child { margin-bottom: 0; }
+
+  .intro-block strong {
+    color: var(--bone);
+    font-weight: 600;
+  }
+
+  /* THE SLAB SECTION */
+  .slab-section {
+    background: var(--slab);
+    border-top: 2px solid var(--red);
+    border-bottom: 2px solid var(--red);
+    padding: 4rem 2rem;
+  }
+
+  .slab-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .slab-text h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(3rem, 7vw, 5rem);
+    font-weight: 900;
+    text-transform: uppercase;
+    color: var(--bone);
+    line-height: 0.9;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.02em;
+  }
+
+  .slab-text h2 span {
+    color: var(--red);
+  }
+
+  .slab-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .stat {
+    background: var(--deeper);
+    padding: 1.5rem;
+  }
+
+  .stat-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    color: var(--neon);
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+
+  .stat-value {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--bone);
+    text-transform: uppercase;
+  }
+
+  /* GALLERY */
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 280px 280px;
+    gap: 4px;
+    margin: 0;
+  }
+
+  .gallery-item {
+    overflow: hidden;
+    position: relative;
+  }
+
+  .gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.75) contrast(1.1) saturate(0.8);
+    transition: filter 0.4s ease, transform 0.4s ease;
+    display: block;
+  }
+
+  .gallery-item:hover img {
+    filter: brightness(0.9) contrast(1.15) saturate(1);
+    transform: scale(1.04);
+  }
+
+  .gallery-item.span2 { grid-column: span 2; }
+  .gallery-item.tall { grid-row: span 2; }
+
+  /* VOICE SECTION — the monologue */
+  .voice-section {
+    background: var(--concrete);
+    padding: 5rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .voice-section::before {
+    content: '"';
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 30rem;
+    color: var(--red);
+    opacity: 0.04;
+    position: absolute;
+    top: -5rem;
+    left: -2rem;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .voice-inner {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .voice-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    color: var(--neon);
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .voice-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--neon-dim);
+    opacity: 0.3;
+  }
+
+  .voice-text p {
+    font-family: 'Barlow', sans-serif;
+    font-size: clamp(1rem, 2vw, 1.15rem);
+    color: var(--dust);
+    line-height: 1.9;
+    margin-bottom: 1.2rem;
+  }
+
+  .voice-text p strong {
+    color: var(--bone);
+  }
+
+  .voice-sign {
+    margin-top: 2.5rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 900;
+    font-style: italic;
+    color: var(--red);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* TRAITS */
+  .traits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2px;
+    background: rgba(255,255,255,0.03);
+    margin-top: 1rem;
+  }
+
+  .trait {
+    background: var(--slab);
+    padding: 2rem 1.8rem;
+    border-top: 3px solid transparent;
+    transition: border-color 0.3s, background 0.3s;
+  }
+
+  .trait:hover {
+    border-top-color: var(--red);
+    background: var(--concrete);
+  }
+
+  .trait-icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.8rem;
+    display: block;
+  }
+
+  .trait-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    color: var(--neon);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .trait p {
+    font-size: 0.9rem;
+    color: var(--ash);
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  /* MEDIUMS */
+  .medium-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 2px;
+    margin-top: 2rem;
+    background: rgba(255,255,255,0.03);
+  }
+
+  .medium {
+    background: var(--slab);
+    padding: 2rem 1.5rem;
+    text-align: center;
+    transition: background 0.3s;
+    border-bottom: 3px solid transparent;
+    transition: border-color 0.3s, background 0.3s;
+  }
+
+  .medium:hover {
+    background: var(--concrete);
+    border-bottom-color: var(--neon);
+  }
+
+  .medium-icon {
+    font-size: 1.8rem;
+    display: block;
+    margin-bottom: 0.8rem;
+  }
+
+  .medium-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    color: var(--neon);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .medium p {
+    font-size: 0.85rem;
+    color: var(--ash);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  /* FULL WIDTH IMAGE */
+  .full-img {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+    object-position: center 30%;
+    filter: brightness(0.65) contrast(1.1) saturate(0.75);
+    display: block;
+  }
+
+  /* CONTACT */
+  .contact-block {
+    background: var(--red);
+    padding: 4rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .contact-block::before {
+    content: 'BIDDY FLINT';
+    position: absolute;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 15rem;
+    font-weight: 900;
+    color: rgba(0,0,0,0.1);
+    text-transform: uppercase;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    pointer-events: none;
+    letter-spacing: -0.03em;
+  }
+
+  .contact-block h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 900;
+    text-transform: uppercase;
+    color: var(--bone);
+    letter-spacing: 0.05em;
+    position: relative;
+    z-index: 1;
+    margin-bottom: 1rem;
+  }
+
+  .contact-block p {
+    color: rgba(232,228,220,0.8);
+    max-width: 500px;
+    margin: 0 auto 2rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .btn {
+    display: inline-block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--red);
+    background: var(--bone);
+    padding: 1rem 2.5rem;
+    text-decoration: none;
+    position: relative;
+    z-index: 1;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .btn:hover {
+    background: var(--deeper);
+    color: var(--neon);
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--deeper);
+    border-top: 1px solid rgba(255,255,255,0.05);
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  footer p {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: rgba(138,134,128,0.4);
+    text-transform: uppercase;
+    margin: 0;
+  }
+
+  .footer-neon {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    color: var(--neon-dim);
+    text-transform: uppercase;
+  }
+
+  /* FADE IN */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (max-width: 700px) {
+    .slab-inner { grid-template-columns: 1fr; gap: 2rem; }
+    .gallery { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+    .gallery-item.span2 { grid-column: span 2; }
+    .gallery-item.tall { grid-row: span 1; }
+    .hero-content { padding: 0 1.5rem 3rem 2rem; }
+    .section { padding: 3rem 1.5rem; }
+    footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <img class="hero-img" src="best_bin_biddy.png" alt="Biddy Flint with the bin">
+  <div class="hero-overlay"></div>
+  <div class="hero-stripe"></div>
+  <div class="hero-content">
+    <p class="estate-tag">The Slab, London 2035</p>
+    <h1 class="hero-name">Biddy<span>Flint</span></h1>
+    <p class="tagline">The Slab is home to a lot of mistakes.<br>Biddy Flint is one of them.</p>
+  </div>
+</div>
+
+<!-- INTRO -->
+<div class="section fade-in">
+  <div class="intro-block">
+    <p>Orphaned at 13, Biddy Flint was left to raise herself in a shark tank. She learnt the hard way in tower block poverty that survival requires cunning and resourcefulness.</p>
+    <p>When trust is thin on the ground, family is everything. Her family come with powerful jaws and unswerving loyalty. Which is lucky, because Biddy Flint has the worst of humanity on her doorstep.</p>
+    <p><strong>And someone has to take out the trash.</strong></p>
+  </div>
+</div>
+
+<!-- THE SLAB -->
+<div class="slab-section fade-in">
+  <div class="slab-inner">
+    <div class="slab-text">
+      <h2>The<br><span>Slab</span></h2>
+      <p>A tower block estate in 2035 London. Built to house people. Designed to contain them. The Slab has its own laws, its own hierarchy, its own memory — and it forgets nothing.</p>
+      <p>This is not a place you choose. It's a place that chooses you. And once it has you, it doesn't let go.</p>
+    </div>
+    <div class="slab-stats">
+      <div class="stat">
+        <p class="stat-label">Location</p>
+        <p class="stat-value">East London, 2035</p>
+      </div>
+      <div class="stat">
+        <p class="stat-label">Structure</p>
+        <p class="stat-value">Brutalist Tower Block</p>
+      </div>
+      <div class="stat">
+        <p class="stat-label">Class System</p>
+        <p class="stat-value">Violence-Based</p>
+      </div>
+      <div class="stat">
+        <p class="stat-label">Escape Rate</p>
+        <p class="stat-value">Near Zero</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GALLERY -->
+<div class="gallery fade-in">
+  <div class="gallery-item tall">
+    <img src="IMG_3127.PNG" alt="Biddy rooftop sunset">
+  </div>
+  <div class="gallery-item">
+    <img src="8aaed2e4f94d5de7750b796df27f0a9d.jpg" alt="Biddy kicking door on estate">
+  </div>
+  <div class="gallery-item">
+    <img src="6e29cd3c4d07a69cd33451d19f5178f5.jpg" alt="Biddy in tunnel">
+  </div>
+  <div class="gallery-item span2">
+    <img src="teyhsnfghdsjwka.jpg" alt="Biddy as a child with sick mother">
+  </div>
+</div>
+
+<!-- VOICE -->
+<div class="voice-section fade-in">
+  <div class="voice-inner">
+    <p class="voice-label">In Her Own Words</p>
+    <div class="voice-text">
+      <p>This might not be an estate you'd want to move into if you had the choice. But if you're from here, you'll never leave. If you're from here, it's unlikely you'll ever get the chance.</p>
+      <p>Like any community, it's a microcosm: unspoken laws, a class system, a hierarchy based on violence, and a new generation of disrupters pushing until one of the old seams finally splits.</p>
+      <p>I'm an orphan. Well, on paper I am. For years my mum told me that my dad was Keith Flint. She was an extra in the video for Baby's Got A Temper — you can see her at 00:01:27 — and the story was she got invited back to Keith's dressing room between takes.</p>
+      <p>Mind you, Cassie was hardly the most credible narrator. Copious amounts of acid in the 80s and ecstasy in the 90s. An alcoholic in Y2K. Got cancer at 30 and was dead by 32. I was 13. My auntie moved in for two weeks and then fucked off to Portugal. <strong>I've looked after myself ever since.</strong></p>
+      <p>This is not a cry for sympathy or a share for likes. Life is like a box of chocolates from a Russian spy. You never know which one is going to make you shit, cry and puke blood concurrently. I can only change the things I can change. And the things I can change usually have a common denominator — a man who thinks he can do whatever the hell he wants.</p>
+      <p><strong>My name is Biddy Flint.<br>Who the fuck are you?</strong></p>
+    </div>
+    <p class="voice-sign">— Biddy Flint</p>
+  </div>
+</div>
+
+<!-- GALLERY 2 -->
+<div class="gallery fade-in" style="grid-template-rows: 320px;">
+  <div class="gallery-item">
+    <img src="fdf87e06b8caf7f2c11f6514bbb79464.jpg" alt="Biddy with dogs on armchair">
+  </div>
+  <div class="gallery-item">
+    <img src="45566.jpg" alt="Biddy with dogs on bed art prints">
+  </div>
+  <div class="gallery-item">
+    <img src="0969a261610d5ca0485c51aeb66c7c9c.jpg" alt="Biddy in storm bloodied">
+  </div>
+</div>
+
+<!-- CHARACTER -->
+<div class="section fade-in">
+  <div class="section-header">
+    <span class="section-number">03 // CHARACTER</span>
+    <div class="section-line"></div>
+  </div>
+  <h2 class="section-title">Not a <em>Victim.</em><br>Never a Victim.</h2>
+  <p>Biddy Flint didn't get a childhood. She got a crash course. The Slab taught her that sentiment is a luxury, that loyalty is currency, and that the only people worth trusting have four legs and don't talk back.</p>
+  <p>She is funny in the way only people who have survived something truly awful can be funny — dark, immediate, with an edge that cuts before you notice it's moving. She is not reckless. She is precise. There is a difference.</p>
+  <div class="traits-grid" style="margin-top: 2.5rem;">
+    <div class="trait">
+      <span class="trait-icon">⚡</span>
+      <p class="trait-label">Instinct</p>
+      <p>Raised by chaos, she reads a room faster than anyone. Survival sharpens what privilege blunts.</p>
+    </div>
+    <div class="trait">
+      <span class="trait-icon">🐕</span>
+      <p class="trait-label">Her Dogs</p>
+      <p>Two massive black English Mastiffs. The only family she's got. They go everywhere she goes.</p>
+    </div>
+    <div class="trait">
+      <span class="trait-icon">🔥</span>
+      <p class="trait-label">Fury</p>
+      <p>Not rage — fury. Controlled, directed, purposeful. She doesn't lose it. She deploys it.</p>
+    </div>
+    <div class="trait">
+      <span class="trait-icon">🎯</span>
+      <p class="trait-label">Humour</p>
+      <p>Razor-sharp and completely her own. The kind of funny that makes you laugh then feel guilty about it.</p>
+    </div>
+  </div>
+</div>
+
+<!-- MEDIUMS -->
+<div class="section fade-in" style="padding-top: 0;">
+  <div class="section-header">
+    <span class="section-number">04 // THE IP</span>
+    <div class="section-line"></div>
+  </div>
+  <h2 class="section-title">One Character.<br><em>Infinite</em> Formats.</h2>
+  <p>Biddy Flint is a fully realised world. The Slab, its inhabitants, its hierarchy — all of it exists and all of it is available to be explored across any medium that can hold her energy.</p>
+  <div class="medium-grid">
+    <div class="medium">
+      <span class="medium-icon">📺</span>
+      <span class="medium-label">TV Series</span>
+      <p>A natural — episodic, estate-based, character-driven. Think Misfits meets Happy Valley.</p>
+    </div>
+    <div class="medium">
+      <span class="medium-icon">🎬</span>
+      <span class="medium-label">Film</span>
+      <p>A contained story from the world. Existing visual development and scene work already produced.</p>
+    </div>
+    <div class="medium">
+      <span class="medium-icon">📖</span>
+      <span class="medium-label">Novel</span>
+      <p>The voice is already there on the page. Raw, funny, unforgettable literary fiction.</p>
+    </div>
+    <div class="medium">
+      <span class="medium-icon">🎮</span>
+      <span class="medium-label">Game</span>
+      <p>Open world estate. 2035 London. The Slab's hierarchy as a living system to navigate.</p>
+    </div>
+    <div class="medium">
+      <span class="medium-icon">🎙</span>
+      <span class="medium-label">Podcast</span>
+      <p>Biddy's voice as a first-person narrative series. That monologue is just the beginning.</p>
+    </div>
+    <div class="medium">
+      <span class="medium-icon">🤖</span>
+      <span class="medium-label">Interactive AI</span>
+      <p>In development — a GPT trained on Biddy's voice. Because she should be able to answer back.</p>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div class="contact-block fade-in">
+  <h2>She's Ready.<br>Are You?</h2>
+  <p>Biddy Flint is available for option, adaptation, and collaboration across all formats. If you can see what this is — get in touch.</p>
+  <a href="mailto:samibooth28@gmail.com" class="btn">Make Contact</a>
+</div>
+
+<footer>
+  <p>Biddy Flint © Sami Booth · All rights reserved</p>
+  <span class="footer-neon">The Slab · London 2035</span>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
