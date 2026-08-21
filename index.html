@@ -436,6 +436,86 @@
     line-height: 1.6;
   }
 
+  /* MUSIC BLOCK */
+  .music-block {
+    background: var(--concrete);
+    border-left: 4px solid var(--red);
+    padding: 2.5rem 3rem;
+    margin: 3rem 0;
+  }
+
+  .music-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    color: var(--neon);
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .music-label::before {
+    content: '//';
+    opacity: 0.5;
+  }
+
+  .music-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 900;
+    text-transform: uppercase;
+    color: var(--bone);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.01em;
+  }
+
+  .music-release {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    color: var(--ash);
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+  }
+
+  .embed-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 2rem;
+    align-items: start;
+  }
+
+  .video-frame {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    background: var(--deeper);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .video-frame iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  .audio-frame iframe {
+    width: 100%;
+    display: block;
+    border-radius: 12px;
+  }
+
+  @media (max-width: 700px) {
+    .embed-grid { grid-template-columns: 1fr; }
+  }
+
   /* MEDIUMS */
   .medium-grid {
     display: grid;
@@ -603,6 +683,7 @@
     .gallery-item.tall { grid-row: span 1; }
     .hero-content { padding: 0 1.5rem 3rem 2rem; }
     .section { padding: 3rem 1.5rem; }
+    .music-block { padding: 2rem 1.5rem; }
     footer { flex-direction: column; gap: 0.5rem; text-align: center; }
   }
 </style>
@@ -624,9 +705,10 @@
 <!-- INTRO -->
 <div class="section fade-in">
   <div class="intro-block">
-    <p>Orphaned at 13, Biddy Flint was left to raise herself in a shark tank. She learnt the hard way in tower block poverty that survival requires cunning and resourcefulness.</p>
-    <p>When trust is thin on the ground, family is everything. Her family come with powerful jaws and unswerving loyalty. Which is lucky, because Biddy Flint has the worst of humanity on her doorstep.</p>
-    <p><strong>And someone has to take out the trash.</strong></p>
+    <p>Orphaned at 13, Biddy Flint was left to raise herself in a shark tank. She learnt the hard way in tower block poverty that survival requires cunning and resourcefulness. Especially so in a place like the Slab.</p>
+    <p>Like any community, The Slab is a microcosm: unspoken laws, a class system, a hierarchy based on violence, and a new generation of disrupters pushing until one of the old seams finally splits.</p>
+    <p>When trust is thin on the ground, family is everything. Biddy's family come with powerful jaws and unswerving loyalty. Which is lucky, because Biddy Flint has the worst of humanity on her doorstep.</p>
+    <p><strong>And someone has to put out the rubbish.</strong></p>
   </div>
 </div>
 
@@ -659,19 +741,28 @@
   </div>
 </div>
 
-<!-- GALLERY -->
-<div class="gallery fade-in">
+<!-- GALLERY 1 -->
+<div class="gallery fade-in" style="grid-template-rows: 260px 260px 260px;">
   <div class="gallery-item tall">
-    <img src="IMG_3127.PNG" alt="Biddy rooftop sunset">
+    <img src="gallery-rooftop-sunset.jpg" alt="Biddy on the rooftop at sunset, overlooking the river">
   </div>
   <div class="gallery-item">
-    <img src="8aaed2e4f94d5de7750b796df27f0a9d.jpg" alt="Biddy kicking door on estate">
+    <img src="gallery-tower-block-night.jpg" alt="The Slab's tower block seen from below at night">
   </div>
   <div class="gallery-item">
-    <img src="6e29cd3c4d07a69cd33451d19f5178f5.jpg" alt="Biddy in tunnel">
+    <img src="gallery-tiger-coat-man.jpg" alt="A menacing figure in a tiger-print coat on the estate">
   </div>
   <div class="gallery-item span2">
-    <img src="teyhsnfghdsjwka.jpg" alt="Biddy as a child with sick mother">
+    <img src="gallery-flooded-london.jpg" alt="Aerial view of flooded London, 2035">
+  </div>
+  <div class="gallery-item">
+    <img src="gallery-mastiffs-shopfront.jpg" alt="Biddy with her two mastiffs outside Pet-E Things">
+  </div>
+  <div class="gallery-item">
+    <img src="gallery-bloodstained-couch.jpg" alt="A blood-stained couch in a Slab flat">
+  </div>
+  <div class="gallery-item">
+    <img src="gallery-red-jacket-woman.jpg" alt="A figure in a red jacket on the estate at night">
   </div>
 </div>
 
@@ -680,28 +771,33 @@
   <div class="voice-inner">
     <p class="voice-label">In Her Own Words</p>
     <div class="voice-text">
-      <p>This might not be an estate you'd want to move into if you had the choice. But if you're from here, you'll never leave. If you're from here, it's unlikely you'll ever get the chance.</p>
-      <p>Like any community, it's a microcosm: unspoken laws, a class system, a hierarchy based on violence, and a new generation of disrupters pushing until one of the old seams finally splits.</p>
-      <p>I'm an orphan. Well, on paper I am. For years my mum told me that my dad was Keith Flint. She was an extra in the video for Baby's Got A Temper — you can see her at 00:01:27 — and the story was she got invited back to Keith's dressing room between takes.</p>
-      <p>Mind you, Cassie was hardly the most credible narrator. Copious amounts of acid in the 80s and ecstasy in the 90s. An alcoholic in Y2K. Got cancer at 30 and was dead by 32. I was 13. My auntie moved in for two weeks and then fucked off to Portugal. <strong>I've looked after myself ever since.</strong></p>
-      <p>This is not a cry for sympathy or a share for likes. Life is like a box of chocolates from a Russian spy. You never know which one is going to make you shit, cry and puke blood concurrently. I can only change the things I can change. And the things I can change usually have a common denominator — a man who thinks he can do whatever the hell he wants.</p>
-      <p><strong>My name is Biddy Flint.<br>Who the fuck are you?</strong></p>
+      <p>This might not be an estate you'd want to move into if you had the choice. But if you're from here, you'll never leave. If you're from here, it's unlikely you'd ever get the chance.</p>
+      <p>I'm an orphan. Well, I think I am. Mum used to tell me my dad was Keith Flint. But Cassie was never exactly a fan of the truth, she spent her life running away from it. Copious amounts of acid in the 80s and ecstasy in the 90s. An alcoholic in Y2K. Got cancer at 30 and was dead by 32. I was 13. Mum's sister moved in for two weeks and then left one morning and never came back. She couldn't handle life in <em>the slab</em>.</p>
+      <p><strong>I've looked after myself ever since.</strong></p>
+      <p>This is not a cry for sympathy. Mum used to say that life is like a box of chocolates from a Russian spy. You never know which one is going to make you shit, cry and puke blood concurrently.</p>
+      <p>I can only change the things I can change. And the things I can change usually have a common denominator — someone who underestimates me.</p>
+      <p><strong>My name is Biddy Flint.</strong></p>
+      <p><strong>Who the fuck are you?</strong></p>
     </div>
-    <p class="voice-sign">— Biddy Flint</p>
   </div>
 </div>
 
 <!-- GALLERY 2 -->
 <div class="gallery fade-in" style="grid-template-rows: 320px;">
   <div class="gallery-item">
-    <img src="fdf87e06b8caf7f2c11f6514bbb79464.jpg" alt="Biddy with dogs on armchair">
+    <img src="gallery2-schoolgirl-doorway.jpg" alt="Young Biddy in school uniform watching her mother asleep on the couch">
   </div>
   <div class="gallery-item">
-    <img src="45566.jpg" alt="Biddy with dogs on bed art prints">
+    <img src="gallery2-armchair-gun-dogs.jpg" alt="Biddy in an armchair flanked by her two mastiffs">
   </div>
   <div class="gallery-item">
-    <img src="0969a261610d5ca0485c51aeb66c7c9c.jpg" alt="Biddy in storm bloodied">
+    <img src="gallery2-storm-lightning.jpg" alt="Biddy in a storm, blood on her shirt, lightning over the Slab">
   </div>
+</div>
+
+<!-- CHARACTER PORTRAIT -->
+<div class="fade-in">
+  <img class="full-img" src="character-bed-dogs.jpg" alt="Biddy asleep in bed with her two mastiffs">
 </div>
 
 <!-- CHARACTER -->
@@ -732,7 +828,7 @@
     <div class="trait">
       <span class="trait-icon">🎯</span>
       <p class="trait-label">Humour</p>
-      <p>Razor-sharp and completely her own. The kind of funny that makes you laugh then feel guilty about it.</p>
+      <p>Deadpan, dark and completely her own. The kind of funny that makes you laugh then feel guilty about it.</p>
     </div>
   </div>
 </div>
@@ -745,6 +841,22 @@
   </div>
   <h2 class="section-title">One Character.<br><em>Infinite</em> Formats.</h2>
   <p>Biddy Flint is a fully realised world. The Slab, its inhabitants, its hierarchy — all of it exists and all of it is available to be explored across any medium that can hold her energy.</p>
+
+  <!-- MUSIC -->
+  <div class="music-block">
+    <p class="music-label">The Music</p>
+    <h3 class="music-title">The Slab</h3>
+    <p class="music-release">Released 21.08.26</p>
+    <div class="embed-grid">
+      <div class="video-frame">
+        <iframe src="https://www.youtube.com/embed/-WTIVWNWvBM?si=-8orHEhzQS2SNljB" title="Biddy Flint — The Slab (Official Video)" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </div>
+      <div class="audio-frame">
+        <iframe data-testid="embed-iframe" src="https://open.spotify.com/embed/track/0zT4JousOB6FGMx5rfixON?utm_source=generator&theme=0&si=8861ec1a7fbc4e8d" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+      </div>
+    </div>
+  </div>
+
   <div class="medium-grid">
     <div class="medium">
       <span class="medium-icon">📺</span>
@@ -768,8 +880,8 @@
     </div>
     <div class="medium">
       <span class="medium-icon">🎙</span>
-      <span class="medium-label">Podcast</span>
-      <p>Biddy's voice as a first-person narrative series. That monologue is just the beginning.</p>
+      <span class="medium-label">Noise</span>
+      <p>Biddy's track The Slab is already available. That is just the beginning.</p>
     </div>
     <div class="medium">
       <span class="medium-icon">🤖</span>
